@@ -91,6 +91,8 @@ return {
 	 end
   },
 
-	
+	{
+		"tpope/vim-surround"
+	}	
 
 }
