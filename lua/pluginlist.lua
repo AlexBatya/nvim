@@ -63,7 +63,7 @@ return {
 	 			}
 	 		}
 	 	})
-	 	vim.cmd("map <C-n> :Neotree<CR>")
+	 	vim.cmd("map <C-p> :Neotree<CR>")
 	 end
   },
  
@@ -83,16 +83,27 @@ return {
 	 end
  	},
  
-  { 
-	 "rose-pine/neovim", -- Пиздатая тема для nvim 
-	 name = "rose-pine", -- можно ещё rose-pine-moon
-	 config = function ()
-	 	vim.cmd("colorscheme rose-pine")
-	 end
+  -- { 
+	 -- "rose-pine/neovim", -- Пиздатая тема для nvim 
+	 -- name = "rose-pine", -- можно ещё rose-pine-moon
+	 -- config = function ()
+	 -- 	vim.cmd("colorscheme rose-pine")
+	 -- end
+  -- },
+	{ 
+		"shaunsingh/nord.nvim", -- Пиздатая тема для nvim 
+		name = "nord", -- можно ещё rose-pine-moon
+		config = function ()
+			vim.cmd("colorscheme nord")
+		end
   },
 
 	{
-		"tpope/vim-surround"
-	}	
+		"tpope/vim-surround" -- обрамить текст символом
+	},
+
+	{
+		"mg979/vim-visual-multi"
+	}
 
 }
