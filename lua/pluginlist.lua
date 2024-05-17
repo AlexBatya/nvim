@@ -103,7 +103,15 @@ return {
 	},
 
 	{
-		"mg979/vim-visual-multi"
+		"mg979/vim-visual-multi" -- вертикальное выдиление
+	},
+
+	{
+		'tpope/vim-dadbod', -- Базы данных 
+		dependencies = {
+			'kristijanhusak/vim-dadbod-ui', 
+			'kristijanhusak/vim-dadbod-completion'
+		},
 	}
 
 }
