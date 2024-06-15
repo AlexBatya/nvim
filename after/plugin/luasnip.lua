@@ -14,6 +14,18 @@ local snip_path = current_dir .. '/snip/?.lua'
 -- Добавляем директорию с модулем в package.path
 package.path = package.path .. ';' .. snip_path
 
+--Qt window.ui
+local ui = require('Qt.ui') -- Указываем относительный путь к модулю
+ui.add_snip()
+
+--Qt window.cpp
+local cpp = require('Qt.cpp') -- Указываем относительный путь к модулю
+cpp.add_snip()
+
+--Qt window.h
+local h = require('Qt.h') -- Указываем относительный путь к модулю
+h.add_snip()
+
 --React Type Tag
 local tags = require('reactTS.tags') -- Указываем относительный путь к модулю
 tags.add_snip()
