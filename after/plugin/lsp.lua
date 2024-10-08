@@ -24,6 +24,12 @@ local on_attach = function(_, bufnr)
   vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
     vim.lsp.buf.format()
   end, {})
+
+  -- Горячие клавиши для навигации по диагностике (ошибки/предупреждения)
+  bufmap('[d', vim.diagnostic.goto_prev)  -- Перейти к предыдущей ошибке
+  bufmap(']d', vim.diagnostic.goto_next)  -- Перейти к следующей ошибке
+  bufmap('<leader>e', vim.diagnostic.open_float)  -- Открыть окно с описанием ошибки
+  bufmap('<leader>q', vim.diagnostic.setloclist)  -- Поместить диагностику в список локаций
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -32,12 +38,13 @@ capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 -- Настройка диагностики
 vim.diagnostic.config({
   virtual_text = {
-    severity = vim.diagnostic.severity.ERROR,
+    severity = vim.diagnostic.severity.ERROR,  -- Показывать только ошибки
+    prefix = '●',  -- Иконка для ошибок (можно заменить на свой символ)
   },
   signs = true,     -- Отображать иконки слева
   underline = true, -- Подчеркивать текст с ошибками
-  update_in_insert = false,
-  severity_sort = true,
+  update_in_insert = false,  -- Не обновлять диагностику при вставке текста
+  severity_sort = true,      -- Сортировать по уровню серьезности
 })
 
 -- Настройки для Mason и LSP

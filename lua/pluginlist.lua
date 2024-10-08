@@ -59,16 +59,21 @@ return {
     end
   },
 
-  -- Терминал
+  -- Новый плагин для терминала
   {
-    "rebelot/terminal.nvim",
+    "akinsho/nvim-toggleterm.lua", 
     config = function()
-      require("terminal").setup({
-        layout = { open_cmd = "botright new" },
-        cmd = { vim.o.shell },
-        autoclose = false,
-      })
-      vim.cmd("map <C-m> :TermRun<CR>")
+      require("toggleterm").setup{
+        size = 20,
+        open_mapping = [[<C-\>]],
+        direction = 'float',  -- Плавающий терминал поверх кода
+        float_opts = {
+          border = 'curved', -- Настраиваем границы
+          width = 120,
+          height = 30,
+          winblend = 3,
+        }
+      }
     end
   },
 
@@ -116,9 +121,9 @@ return {
 
   -- Поддержка Markdown
   {
-    "plasticboy/vim-markdown", -- Улучшенная поддержка синтаксиса Markdown
+    "plasticboy/vim-markdown", 
     config = function()
-      vim.g.vim_markdown_folding_disabled = 1 -- Отключаем сворачивание секций в Markdown
+      vim.g.vim_markdown_folding_disabled = 1 
     end
   },
 
@@ -128,8 +133,8 @@ return {
     run = "cd app && npm install",
     ft = { "markdown" },
     config = function()
-      vim.g.mkdp_auto_start = 1  -- Автоматически запускать предпросмотр при открытии .md файлов
-      vim.g.mkdp_auto_close = 1  -- Закрывать предпросмотр при выходе из .md файла
+      vim.g.mkdp_auto_start = 1  
+      vim.g.mkdp_auto_close = 1 
     end
   },
 
@@ -137,10 +142,10 @@ return {
   {
     "lervag/vimtex",
     config = function()
-      vim.g.vimtex_view_method = 'general'  -- Используем SumatraPDF на Windows
-      vim.g.vimtex_view_general_viewer = 'C:/Users/User/AppData/Local/SumatraPDF/SumatraPDF.exe'  -- Путь до SumatraPDF
+      vim.g.vimtex_view_method = 'general'
+      vim.g.vimtex_view_general_viewer = 'C:/Users/User/AppData/Local/SumatraPDF/SumatraPDF.exe'
       vim.g.vimtex_view_general_options = '-reuse-instance -forward-search @tex @line @pdf'
-      vim.g.vimtex_compiler_method = 'latexmk'  -- Компиляция через latexmk
+      vim.g.vimtex_compiler_method = 'latexmk'
       vim.g.tex_flavor = 'latex'
     end
   },

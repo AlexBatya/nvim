@@ -7,7 +7,7 @@ vim.o.clipboard = 'unnamedplus'
 
 -- Включение нумерации строк
 vim.o.number = true
-vim.o.relativenumber = true 
+vim.o.relativenumber = true
 
 -- Колонка для знаков (например, для диагностики LSP)
 vim.o.signcolumn = 'yes'
@@ -45,4 +45,23 @@ vim.api.nvim_set_keymap('n', '<leader>5', ':BufferLineGoToBuffer 5<CR>', { norem
 
 -- Закрытие буфера
 vim.api.nvim_set_keymap('n', '<leader>c', ':bdelete<CR>', { noremap = true, silent = true })
+
+-- Настройка горячих клавиш для терминала через nvim-toggleterm.lua
+-- Открытие/закрытие терминала
+vim.api.nvim_set_keymap('n', '<leader>t', ':ToggleTerm<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>tv', ':ToggleTerm direction=vertical<CR>', { noremap = true, silent = true }) -- Вертикальный терминал
+vim.api.nvim_set_keymap('n', '<leader>th', ':ToggleTerm direction=horizontal<CR>', { noremap = true, silent = true }) -- Горизонтальный терминал
+
+-- Открытие плавающего терминала
+vim.api.nvim_set_keymap('n', '<leader>tf', ':ToggleTerm direction=float<CR>', { noremap = true, silent = true })
+
+-- Открытие нескольких терминалов с определёнными номерами
+vim.api.nvim_set_keymap('n', '<leader>tt', ':ToggleTerm<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>t1', ':1ToggleTerm<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>t2', ':2ToggleTerm<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>t3', ':3ToggleTerm<CR>', { noremap = true, silent = true })
+
+-- Переключение между терминалами
+vim.api.nvim_set_keymap('n', '<leader>tn', ':ToggleTermNext<CR>', { noremap = true, silent = true }) -- Следующий терминал
+vim.api.nvim_set_keymap('n', '<leader>tp', ':ToggleTermPrev<CR>', { noremap = true, silent = true }) -- Предыдущий терминал
 
