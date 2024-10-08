@@ -2,6 +2,7 @@
 local cmp = require('cmp')
 local luasnip = require('luasnip')
 
+-- Загрузка сниппетов
 require('luasnip.loaders.from_vscode').lazy_load()
 luasnip.config.setup {}
 
@@ -40,8 +41,20 @@ cmp.setup {
             end
         end, { 'i', 's' }),
     },
-    sources = {
-        { name = 'nvim_lsp' },
-        { name = 'luasnip' },
+    sources = cmp.config.sources {
+        { name = 'nvim_lsp' },  -- Источник для LSP
+        { name = 'luasnip' },   -- Источник для сниппетов
+        { name = 'path' },      -- Добавляем автодополнение файловых путей
     },
 }
+
+-- Настройки для автодополнения в require("./")
+cmp.setup.filetype({ 'lua', 'javascript', 'typescript' }, {
+    sources = cmp.config.sources({
+        { name = 'path' },      -- Автодополнение файловых путей в этих файлах
+    }, {
+        { name = 'nvim_lsp' },
+        { name = 'luasnip' },
+    }),
+})
+

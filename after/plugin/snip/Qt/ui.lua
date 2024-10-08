@@ -225,11 +225,19 @@ function functions.add_snip()
 	})
 
 	ls.add_snippets("xml", {
-			s("formLayout", fmt(
+			s("line", fmt(
 			[[
 				<widget class="QLineEdit" name="{}">
 				
 				</widget>
+			]], {i(1)}
+			))
+	})
+
+	ls.add_snippets("xml", {
+			s("ui", fmt(
+			[[
+				<ui filename="{}.ui"/>	
 			]], {i(1)}
 			))
 	})

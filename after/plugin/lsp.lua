@@ -5,6 +5,7 @@ local on_attach = function(_, bufnr)
     vim.keymap.set('n', keys, func, { buffer = bufnr })
   end
 
+  -- Маппинги для LSP
   bufmap('<leader>r', vim.lsp.buf.rename)
   bufmap('<leader>a', vim.lsp.buf.code_action)
 
@@ -19,6 +20,7 @@ local on_attach = function(_, bufnr)
 
   bufmap('K', vim.lsp.buf.hover)
 
+  -- Команда для форматирования
   vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
     vim.lsp.buf.format()
   end, {})
@@ -27,17 +29,18 @@ end
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
--- no mason
--- require('lspconfig').lua_ls.setup {
---     on_attach = on_attach,
---     capabilities = capabilities,
---     Lua = {
---       workspace = { checkThirdParty = false },
---       telemetry = { enable = false },
---     },
--- }
+-- Настройка диагностики
+vim.diagnostic.config({
+  virtual_text = {
+    severity = vim.diagnostic.severity.ERROR,
+  },
+  signs = true,     -- Отображать иконки слева
+  underline = true, -- Подчеркивать текст с ошибками
+  update_in_insert = false,
+  severity_sort = true,
+})
 
--- mason
+-- Настройки для Mason и LSP
 require("mason").setup()
 require("mason-lspconfig").setup_handlers({
 
@@ -48,6 +51,7 @@ require("mason-lspconfig").setup_handlers({
         }
     end,
 
+    -- Lua LSP
     ["lua_ls"] = function()
         require('neodev').setup()
         require('lspconfig').lua_ls.setup {
@@ -61,17 +65,12 @@ require("mason-lspconfig").setup_handlers({
             }
         }
     end
-
-    -- another example
-    -- ["omnisharp"] = function()
-    --     require('lspconfig').omnisharp.setup {
-    --         filetypes = { "cs", "vb" },
-    --         root_dir = require('lspconfig').util.root_pattern("*.csproj", "*.sln"),
-    --         on_attach = on_attach,
-    --         capabilities = capabilities,
-    --         enable_roslyn_analyzers = true,
-    --         analyze_open_documents_only = true,
-    --         enable_import_completion = true,
-    --     }
-    -- end,
 })
+
+-- Настройка отображения иконок для диагностики
+local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+for type, icon in pairs(signs) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end
+
