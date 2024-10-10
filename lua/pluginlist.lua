@@ -4,17 +4,52 @@ return {
   "williamboman/mason-lspconfig.nvim", 
   "neovim/nvim-lspconfig", 
 
-  -- Буферные вкладки
+  -- Буферные вкладки (bufferline)
   {
-    "akinsho/nvim-bufferline.lua", 
+    "akinsho/nvim-bufferline.lua",
     config = function()
       require('bufferline').setup {
         options = {
           numbers = "none",
           diagnostics = "nvim_lsp",
+          diagnostics_indicator = function(count, level)
+            local icon = (level:match("error") and " " or " ")
+            return " " .. icon .. count
+          end,
+          offsets = {{ filetype = "NvimTree", text = "File Explorer", text_align = "center" }},
           show_buffer_close_icons = false,
           show_close_icon = false,
           separator_style = "thin",
+          max_name_length = 18,
+          max_prefix_length = 15,
+          tab_size = 18,
+        },
+        highlights = {
+          buffer_selected = {
+            guifg = '#ffffff',
+            guibg = '#5f87d7',
+            gui = 'bold',
+          },
+          diagnostic_selected = {
+            guifg = '#ff5f5f',
+            gui = 'bold,italic',
+          },
+          error_diagnostic_selected = {
+            guifg = '#ff0000',
+            gui = 'bold,italic',
+          },
+          warning_diagnostic_selected = {
+            guifg = '#ffaa00',
+            gui = 'bold,italic',
+          },
+          info_diagnostic_selected = {
+            guifg = '#00afff',
+            gui = 'bold,italic',
+          },
+          modified = {
+            guifg = '#00ff00',
+            gui = 'bold',
+          }
         }
       }
     end
@@ -48,17 +83,6 @@ return {
     end
   },
 
-  -- Airline для нижней панели и её темы
-  "vim-airline/vim-airline",
-  {
-    "vim-airline/vim-airline-themes",
-    config = function()
-      vim.cmd("let g:airline_theme='onedark'")
-      vim.cmd("set showtabline=2")
-      vim.cmd("set noshowmode")
-    end
-  },
-
   -- Новый плагин для терминала
   {
     "akinsho/nvim-toggleterm.lua", 
@@ -66,9 +90,9 @@ return {
       require("toggleterm").setup{
         size = 20,
         open_mapping = [[<C-\>]],
-        direction = 'float',  -- Плавающий терминал поверх кода
+        direction = 'float',
         float_opts = {
-          border = 'curved', -- Настраиваем границы
+          border = 'curved',
           width = 120,
           height = 30,
           winblend = 3,
@@ -77,6 +101,29 @@ return {
     end
   },
 
+  -- Treesitter для улучшенной подсветки синтаксиса
+  {
+    "nvim-treesitter/nvim-treesitter",
+    run = ":TSUpdate",
+    config = function()
+      require'nvim-treesitter.configs'.setup {
+        highlight = {
+          enable = true,
+          additional_vim_regex_highlighting = false,
+        },
+        ensure_installed = {
+          "javascript", "typescript", "tsx", "html", "css", "lua", "python", "rust"
+        }
+      }
+
+      -- Поддержка курсива для функций, ключевых слов и комментариев
+      vim.cmd [[
+        highlight Function cterm=italic gui=italic
+        highlight Keyword cterm=italic gui=italic
+        highlight Comment cterm=italic gui=italic
+      ]]
+    end
+  },
   -- Автозакрытие скобок
   {
     "m4xshen/autoclose.nvim",
@@ -119,37 +166,6 @@ return {
     end
   },
 
-  -- Поддержка Markdown
-  {
-    "plasticboy/vim-markdown", 
-    config = function()
-      vim.g.vim_markdown_folding_disabled = 1 
-    end
-  },
-
-  -- Предпросмотр Markdown
-  {
-    "iamcco/markdown-preview.nvim",
-    run = "cd app && npm install",
-    ft = { "markdown" },
-    config = function()
-      vim.g.mkdp_auto_start = 1  
-      vim.g.mkdp_auto_close = 1 
-    end
-  },
-
-  -- Поддержка LaTeX через vimtex
-  {
-    "lervag/vimtex",
-    config = function()
-      vim.g.vimtex_view_method = 'general'
-      vim.g.vimtex_view_general_viewer = 'C:/Users/User/AppData/Local/SumatraPDF/SumatraPDF.exe'
-      vim.g.vimtex_view_general_options = '-reuse-instance -forward-search @tex @line @pdf'
-      vim.g.vimtex_compiler_method = 'latexmk'
-      vim.g.tex_flavor = 'latex'
-    end
-  },
-
   -- Дерево файлов (NeoTree)
   {
     "nvim-neo-tree/neo-tree.nvim",
@@ -157,7 +173,7 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons",
-      "ryanoasis/vim-devicons",
+      "ryanoasis/vim-devicons", -- Поддержка devicons для иконок
       "MunifTanjim/nui.nvim",
     },
     config = function()
@@ -174,17 +190,17 @@ return {
             default = "",
           },
           modified = {
-            symbol = "[+]",
+            symbol = "", -- Изменяем иконку на "" вместо "[+]"
             highlight = "NeoTreeModified",
           },
           git_status = {
             symbols = {
-              added = "✚",
-              modified = "",
-              deleted = "✖",
-              renamed = "➜",
+              added = "",
+              modified = "", -- Иконка для модифицированных файлов
+              deleted = "",
+              renamed = "",
               untracked = "★",
-              ignored = "◌",
+              ignored = "",
             }
           }
         },
@@ -263,4 +279,3 @@ return {
     end
   }
 }
-

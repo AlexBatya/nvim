@@ -22,7 +22,7 @@ local on_attach = function(_, bufnr)
 
   -- Команда для форматирования
   vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
-    vim.lsp.buf.format()
+    vim.lsp.buf.format({ async = true })
   end, {})
 
   -- Горячие клавиши для навигации по диагностике (ошибки/предупреждения)
@@ -80,4 +80,24 @@ for type, icon in pairs(signs) do
   local hl = "DiagnosticSign" .. type
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
+
+-- Настройка цвета вкладок в зависимости от диагностики
+require('bufferline').setup {
+  options = {
+    diagnostics = "nvim_lsp",
+    diagnostics_indicator = function(count, level)
+      local icon = level:match("error") and "" or ""
+      return " " .. icon .. count
+    end,
+    -- Другие настройки bufferline
+  },
+  highlights = {
+    error_diagnostic = {
+      guifg = '#ff0000',  -- Красный цвет для ошибок
+    },
+    warning_diagnostic = {
+      guifg = '#ffaa00',  -- Оранжевый цвет для предупреждений
+    },
+  }
+}
 
