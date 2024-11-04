@@ -1,8 +1,25 @@
 return {
   -- LSP и Mason для настройки автокомплита и LSP
-  "williamboman/mason.nvim", 
-  "williamboman/mason-lspconfig.nvim", 
-  "neovim/nvim-lspconfig", 
+  {
+    "williamboman/mason.nvim",
+    config = function()
+      require("mason").setup()
+    end
+  },
+  {
+    "williamboman/mason-lspconfig.nvim",
+    config = function()
+      require("mason-lspconfig").setup({
+        ensure_installed = { "lua_ls", "pyright", "tsserver" }, -- Укажите необходимые LSP серверы
+      })
+    end
+  },
+  {
+    "neovim/nvim-lspconfig",
+    config = function()
+      -- Здесь можно подключить настройку LSP
+    end
+  },
 
   -- Буферные вкладки (bufferline)
   {
@@ -83,9 +100,9 @@ return {
     end
   },
 
-  -- Новый плагин для терминала
+  -- Плагин для терминала
   {
-    "akinsho/nvim-toggleterm.lua", 
+    "akinsho/nvim-toggleterm.lua",
     config = function()
       require("toggleterm").setup{
         size = 20,
@@ -102,28 +119,42 @@ return {
   },
 
   -- Treesitter для улучшенной подсветки синтаксиса
-  {
-    "nvim-treesitter/nvim-treesitter",
-    run = ":TSUpdate",
-    config = function()
-      require'nvim-treesitter.configs'.setup {
-        highlight = {
-          enable = true,
-          additional_vim_regex_highlighting = false,
-        },
-        ensure_installed = {
-          "javascript", "typescript", "tsx", "html", "css", "lua", "python", "rust"
-        }
-      }
+  -- {
+  --   "nvim-treesitter/nvim-treesitter",
+  --   run = ":TSUpdate",
+  --   config = function()
+  --     require'nvim-treesitter.configs'.setup {
+  --       highlight = {
+  --         enable = true,
+  --         additional_vim_regex_highlighting = false,
+  --       },
+  --       ensure_installed = {
+  --         "javascript", "typescript", "tsx", "html", "css", "lua", "python", "rust"
+  --       }
+  --     }
+  --
+  --     -- Отключение Treesitter для больших файлов
+  --     local function disable_treesitter_for_large_files()
+  --       local max_filesize = 1024 * 100 -- 100 KB
+  --       local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(0))
+  --       if ok and stats and stats.size > max_filesize then
+  --         vim.cmd("TSBufDisable highlight")
+  --       end
+  --     end
+  --
+  --     vim.api.nvim_create_autocmd({"BufReadPost"}, {
+  --       callback = disable_treesitter_for_large_files,
+  --     })
+  --
+  --     -- Поддержка курсива для функций, ключевых слов и комментариев
+  --     vim.cmd [[
+  --       highlight Function cterm=italic gui=italic
+  --       highlight Keyword cterm=italic gui=italic
+  --       highlight Comment cterm=italic gui=italic
+  --     ]]
+  --   end
+  -- },
 
-      -- Поддержка курсива для функций, ключевых слов и комментариев
-      vim.cmd [[
-        highlight Function cterm=italic gui=italic
-        highlight Keyword cterm=italic gui=italic
-        highlight Comment cterm=italic gui=italic
-      ]]
-    end
-  },
   -- Автозакрытие скобок
   {
     "m4xshen/autoclose.nvim",
@@ -173,7 +204,6 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons",
-      "ryanoasis/vim-devicons", -- Поддержка devicons для иконок
       "MunifTanjim/nui.nvim",
     },
     config = function()
@@ -190,13 +220,13 @@ return {
             default = "",
           },
           modified = {
-            symbol = "", -- Изменяем иконку на "" вместо "[+]"
+            symbol = "",
             highlight = "NeoTreeModified",
           },
           git_status = {
             symbols = {
               added = "",
-              modified = "", -- Иконка для модифицированных файлов
+              modified = "",
               deleted = "",
               renamed = "",
               untracked = "★",
@@ -277,5 +307,16 @@ return {
       vim.g.db_ui_use_nerd_fonts = 1
       vim.g.db_ui_auto_execute_table_helpers = 1
     end
+  },
+
+  -- Markdown Preview
+  {
+    "iamcco/markdown-preview.nvim",
+    build = "cd app && npm install",
+    ft = { "markdown" },
+    config = function()
+      vim.cmd("let g:mkdp_auto_start = 0")
+    end
   }
 }
+

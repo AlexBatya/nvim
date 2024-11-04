@@ -38,7 +38,7 @@ capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 -- Настройка диагностики
 vim.diagnostic.config({
   virtual_text = {
-    severity = vim.diagnostic.severity.ERROR,  -- Показывать только ошибки
+    severity = { min = vim.diagnostic.severity.WARN },  -- Показывать только предупреждения и ошибки
     prefix = '●',  -- Иконка для ошибок (можно заменить на свой символ)
   },
   signs = true,     -- Отображать иконки слева
@@ -66,7 +66,16 @@ require("mason-lspconfig").setup_handlers({
             capabilities = capabilities,
             settings = {
                 Lua = {
-                    workspace = { checkThirdParty = false },
+                    runtime = {
+                        version = 'LuaJIT',
+                    },
+                    diagnostics = {
+                        globals = { 'vim' },  -- Игнорировать глобальные переменные Lua для Neovim
+                    },
+                    workspace = {
+                        library = vim.api.nvim_get_runtime_file("", true),
+                        checkThirdParty = false
+                    },
                     telemetry = { enable = false },
                 },
             }
@@ -80,6 +89,20 @@ for type, icon in pairs(signs) do
   local hl = "DiagnosticSign" .. type
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
+
+-- Отключение Treesitter для больших файлов
+local function disable_treesitter_for_large_files()
+  local max_filesize = 100 * 1024 -- 100 KB
+  local buf_name = vim.api.nvim_buf_get_name(0)
+  local ok, stats = pcall(vim.loop.fs_stat, buf_name)
+  if ok and stats and stats.size > max_filesize then
+    vim.cmd("TSBufDisable highlight")
+  end
+end
+
+vim.api.nvim_create_autocmd({"BufReadPost"}, {
+  callback = disable_treesitter_for_large_files,
+})
 
 -- Настройка цвета вкладок в зависимости от диагностики
 require('bufferline').setup {
@@ -100,4 +123,11 @@ require('bufferline').setup {
     },
   }
 }
+
+-- Применение стилей для курсива в Treesitter
+vim.cmd [[
+  highlight Function cterm=italic gui=italic
+  highlight Keyword cterm=italic gui=italic
+  highlight Comment cterm=italic gui=italic
+]]
 
