@@ -1,6 +1,7 @@
 -- Файлик для базовых опций nvim
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
+vim.opt.termguicolors = true
 
 -- Копирование в системный буфер обмена
 vim.o.clipboard = 'unnamedplus'
@@ -35,6 +36,9 @@ vim.cmd("let g:indentLine_enabled=0")
 -- Переключение между вкладками (буферами)
 vim.api.nvim_set_keymap('n', '<S-Tab>', ':BufferLineCyclePrev<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<Tab>', ':BufferLineCycleNext<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>bc', ':BufferLineCloseOthers<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>bx', ':BufferLinePickClose<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>bp', ':BufferLinePick<CR>', { noremap = true, silent = true })
 
 -- Переключение на конкретный буфер
 vim.api.nvim_set_keymap('n', '<leader>1', ':BufferLineGoToBuffer 1<CR>', { noremap = true, silent = true })

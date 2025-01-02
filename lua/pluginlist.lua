@@ -1,4 +1,20 @@
 return {
+
+  {
+    "nvim-telescope/telescope.nvim",
+    requires = { "nvim-lua/plenary.nvim" },
+    config = function()
+      require("telescope").setup({})
+    end
+  },
+
+  {
+    "folke/neodev.nvim",
+    config = function()
+      require("neodev").setup({})
+    end
+  },
+
   -- LSP и Mason для настройки автокомплита и LSP
   {
     "williamboman/mason.nvim",
@@ -20,7 +36,6 @@ return {
       -- Здесь можно подключить настройку LSP
     end
   },
-
   -- Буферные вкладки (bufferline)
   {
     "akinsho/nvim-bufferline.lua",
@@ -319,4 +334,3 @@ return {
     end
   }
 }
-

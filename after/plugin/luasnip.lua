@@ -37,5 +37,12 @@ functions.add_snip()
 local server = require('typescript.server') -- Указываем относительный путь к модулю
 server.add_snip()
 
+local baseWinForms = require('WindowsForms.base') -- Указываем относительный путь к модулю
+baseWinForms.add_snip()
 
+local menuBar = require('WindowsForms.menuBar') -- Указываем относительный путь к модулю
+menuBar.add_snip()
+
+local table = require('WindowsForms.tableLayoutPanel') -- Указываем относительный путь к модулю
+table.add_snip()
 
