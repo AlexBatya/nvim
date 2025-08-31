@@ -46,3 +46,10 @@ menuBar.add_snip()
 local table = require('WindowsForms.tableLayoutPanel') -- Указываем относительный путь к модулю
 table.add_snip()
 
+-- WPF XAML снипеты
+local wpf_xaml = require('dotnetCLIXAML.main') -- Указываем относительный путь к модулю
+wpf_xaml.add_snip()
+
+-- WPF C# сниппеты (2 пробела, скобки в строке)
+local wpf_csharp = require('dotnetCLIXAML.mainCS')
+wpf_csharp.add_snip()
