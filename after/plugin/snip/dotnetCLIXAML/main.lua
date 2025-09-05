@@ -68,6 +68,60 @@ local fmt = require("luasnip.extras.fmt").fmt
 local wpf_xaml_full = {}
 
 function wpf_xaml_full.add_snip()
+
+  ls.add_snippets("xaml", {
+      -- UserControl reference snippets
+      s("uc", fmt(
+      [[
+  <{}:{}
+    HorizontalAlignment="{}"
+    VerticalAlignment="{}"
+    {}
+  />
+  ]], {
+          i(1, "views"),  -- namespace prefix
+          i(2, "MyUserControl"),  -- user control name
+          i(3, "Stretch"),  -- horizontal alignment
+          i(4, "Top"),  -- vertical alignment
+          i(0)  -- custom properties and events
+      })),
+
+      s("ucfull", fmt(
+      [[
+  <{}:{}
+    HorizontalAlignment="{}"
+    VerticalAlignment="{}"
+    {}
+    {}
+  />
+  ]], {
+          i(1, "views"),  -- namespace prefix
+          i(2, "MenuBar"),  -- user control name
+          i(3, "Stretch"),  -- horizontal alignment
+          i(4, "Top"),  -- vertical alignment
+          i(5, "ExitProgram=\"Click_Exit\"\nOpenSettings=\"Click_OpenSettings\""),  -- events
+          i(0)  -- additional properties
+      })),
+
+      s("ucsimple", fmt(
+      [[
+  <{}:{} {}
+  />
+  ]], {
+          i(1, "views"),  -- namespace prefix
+          i(2, "MyUserControl"),  -- user control name
+          i(0)  -- properties
+      })),
+
+      -- Namespace declaration snippet
+      s("xmlns", fmt(
+      [[
+  xmlns:{}="clr-namespace:{}"
+  ]], {
+          i(1, "views"),  -- namespace prefix
+          i(2, "MyApp.Views")  -- namespace path
+      }))
+  })
     -- Основные контейнеры
     ls.add_snippets("xaml", {
         s("win", fmt(
