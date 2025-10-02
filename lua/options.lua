@@ -69,3 +69,18 @@ vim.api.nvim_set_keymap('n', '<leader>t3', ':3ToggleTerm<CR>', { noremap = true,
 vim.api.nvim_set_keymap('n', '<leader>tn', ':ToggleTermNext<CR>', { noremap = true, silent = true }) -- Следующий терминал
 vim.api.nvim_set_keymap('n', '<leader>tp', ':ToggleTermPrev<CR>', { noremap = true, silent = true }) -- Предыдущий терминал
 
+vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
+    pattern = "*.xaml",
+    callback = function()
+        vim.bo.filetype = "xaml"
+
+        -- Настройки табов и автоотступов
+        vim.bo.expandtab = true      -- пробелы вместо табов
+        vim.bo.shiftwidth = 2        -- размер сдвига
+        vim.bo.tabstop = 2           -- ширина таба
+        vim.bo.softtabstop = 2       -- пробелы при нажатии Tab
+
+        vim.bo.autoindent = true
+        vim.bo.smartindent = true
+    end
+})
