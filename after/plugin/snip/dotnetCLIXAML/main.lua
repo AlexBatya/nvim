@@ -70,6 +70,61 @@ local wpf_xaml_full = {}
 function wpf_xaml_full.add_snip()
 
   ls.add_snippets("xaml", {
+      s("triggerAnimation", fmt(
+          [[
+      <Trigger Property="IsMouseOver" Value="True">
+          <Trigger.EnterActions>
+              <BeginStoryboard>
+                  <Storyboard>
+                      <ColorAnimation 
+                          Storyboard.TargetName="{}"
+                          Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                          To="{}"
+                          Duration="0:0:{}"/>
+                  </Storyboard>
+              </BeginStoryboard>
+          </Trigger.EnterActions>
+          <Trigger.ExitActions>
+              <BeginStoryboard>
+                  <Storyboard>
+                      <ColorAnimation 
+                          Storyboard.TargetName="{}"
+                          Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                          To="{}"
+                          Duration="0:0:{}"/>
+                  </Storyboard>
+              </BeginStoryboard>
+          </Trigger.ExitActions>
+      </Trigger>
+      ]], {
+              i(1, "border"),   -- имя элемента (TargetName)
+              i(2, "#467996"),  -- цвет при наведении
+              i(3, "0.3"),      -- длительность
+              rep(1),           -- TargetName совпадает
+              i(4, "White"),    -- цвет при выходе
+              rep(3)            -- та же длительность
+          })),
+      s("contentpresenter", fmt(
+          [[
+      <ContentPresenter
+          HorizontalAlignment="Center"
+          VerticalAlignment="Center"
+          RecognizesAccessKey="True">
+          {}
+      </ContentPresenter>
+      ]], { i(0) })
+          ),
+
+          s("cp", fmt(
+          [[
+      <ContentPresenter
+          HorizontalAlignment="Center"
+          VerticalAlignment="Center"
+          RecognizesAccessKey="True">
+          {}
+      </ContentPresenter>
+      ]], { i(0) })
+          ),
 
       s("animopacity", fmt(
       [[
