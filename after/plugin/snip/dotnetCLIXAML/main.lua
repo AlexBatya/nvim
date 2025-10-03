@@ -70,6 +70,66 @@ local wpf_xaml_full = {}
 function wpf_xaml_full.add_snip()
 
   ls.add_snippets("xaml", {
+
+      s("animopacity", fmt(
+      [[
+      <Storyboard>
+          <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                           From="{}" To="{}"
+                           Duration="0:0:{}"/>
+      </Storyboard>
+      ]], { i(1, "0"), i(2, "1"), i(3, "1") })
+      ),
+
+      s("styletrigger", fmt(
+      [[
+      <Style TargetType="{}">
+          <Style.Triggers>
+              <Trigger Property="{}" Value="{}">
+                  {}
+              </Trigger>
+          </Style.Triggers>
+      </Style>
+      ]], { i(1, "Button"), i(2, "IsMouseOver"), i(3, "True"), i(0) })
+      ),
+
+      s("borderc", fmt(
+      [[
+      <Border
+          Background="{{TemplateBinding Background}}"
+          BorderThickness="{{TemplateBinding BorderThickness}}"
+          BorderBrush="{{TemplateBinding BorderBrush}}"
+          CornerRadius="5"
+          SnapsToDevicePixels="True">
+          {}
+      </Border>
+      ]], { i(0) })
+      ),
+
+      s("templatec", fmt(
+      [[
+      <ControlTemplate TargetType="{}">
+          {}
+      </ControlTemplate>
+      ]], { i(1, "Button"), i(0) })
+      ),
+
+      s("setter", fmt(
+      [[
+      <Setter Property="{}" Value="{}"/>
+      ]], { i(1, "PropertyName"), i(2, "Value") })
+      ),
+
+      s("setterc", fmt(
+      [[
+      <Setter Property="{}">
+          <Setter.Value>
+              {}
+          </Setter.Value>
+      </Setter>
+      ]], { i(1, "PropertyName"), i(2, "ControlTemplate") })
+      ),
+
       -- UserControl reference snippets
       s("uc", fmt(
       [[
